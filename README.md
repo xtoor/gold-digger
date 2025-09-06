@@ -1,6 +1,6 @@
 # 🏆 Gold-Digger
 <p align="center">
-  <img src="https://via.placeholder.com/400x400/FFD700/000000?text=⛏️%0AGold%0ADigger%0A💰%0AML%20Data%0AMiner" alt="Gold-Digger Banner"/>
+  <img src="gold-digger.png" alt="Header Banner" width="400" height="400">
 </p>
 
 <p align="center">
