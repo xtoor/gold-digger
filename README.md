@@ -59,7 +59,51 @@ cd gold-digger
 pip install pandas numpy sqlite3 requests ccxt ta schedule
 
 # Configure your API keys (optional but recommended)
+# Find this section in gold-digger.py and fill in the API info add or remove brokers by commenting out its block
 # Edit the setup_mining_operations() function with your exchange API credentials
+```code
+            self.log_funny("🔧 Setting up mining equipment across multiple exchanges...")
+            
+            # Original exchanges
+            self.exchanges['coinbase'] = ccxt.coinbase({
+                'apiKey': '',
+                'secret': '',
+                'password': '',
+                'sandbox': False,
+                'rateLimit': 1000,
+            })
+            
+            # New exchanges added per request
+            self.exchanges['kraken'] = ccxt.kraken({
+                'apiKey': '',
+                'secret': '',
+                'sandbox': False,
+                'rateLimit': 1000,
+            })
+            
+            self.exchanges['cryptocom'] = ccxt.cryptocom({
+                'apiKey': '',
+                'secret': '',
+                'sandbox': False,
+                'rateLimit': 1000,
+            })
+            
+            # Note: CCXT doesn't have direct Uphold support, using OKX as alternative
+            self.exchanges['okx'] = ccxt.okx({
+                'apiKey': '',
+                'secret': '',
+                'password': '',
+                'sandbox': False,
+                'rateLimit': 1000,
+            })
+            
+            # Using Bitfinex as another major exchange option
+            self.exchanges['bitfinex'] = ccxt.bitfinex({
+                'apiKey': '',
+                'secret': '',
+                'sandbox': False,
+                'rateLimit': 1500,
+            })```
 
 # Start mining!
 python gold_digger.py
