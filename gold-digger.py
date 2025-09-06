@@ -13,6 +13,67 @@ from dataclasses import dataclass
 import json
 import random
 
+def display_banner():
+    """Display the epic Gold-Digger banner! 🎬"""
+    banner = """
+    ╔════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                                                        ║
+    ║    ░██████╗░░█████╗░██╗░░░░░██████╗░░░░░░░██████╗░██╗░██████╗░░██████╗░███████╗        ║
+    ║    ██╔════╝░██╔══██╗██║░░░░░██╔══██╗░░░░░░██╔══██╗██║██╔════╝░██╔════╝░██╔════╝        ║
+    ║    ██║░░██╗░██║░░██║██║░░░░░██║░░██║█████╗██║░░██║██║██║░░██╗░██║░░██╗░█████╗░░        ║
+    ║    ██║░░╚██╗██║░░██║██║░░░░░██║░░██║╚════╝██║░░██║██║██║░░╚██╗██║░░╚██╗██╔══╝░░        ║
+    ║    ╚██████╔╝╚█████╔╝███████╗██████╔╝░░░░░░██████╔╝██║╚██████╔╝╚██████╔╝███████╗        ║
+    ║    ░╚═════╝░░╚════╝░╚══════╝╚═════╝░░░░░░░╚═════╝░╚═╝░╚═════╝░░╚═════╝░╚══════╝        ║
+    ║                                                                                        ║
+    ║    ⚡ THE ULTIMATE CRYPTO DATA MINING & ML TRAINING POWERHOUSE ⚡                     ║
+    ║                                                                                        ║
+    ║    🔥 Features:                                                                       ║
+    ║    ⛏️  Multi-Exchange Data Mining                                                      ║
+    ║    💎 Volume Breakout Detection                                                        ║
+    ║    🧠 ML Feature Engineering                                                           ║
+    ║    🎯 Technical Analysis Arsenal                                                       ║ 
+    ║    💰 Volume Jackpot Detection                                                         ║
+    ║    🗺️  Utility Treasure Mapping                                                        ║
+    ║    📊 Real-time Performance Tracking                                                   ║                                                                                                ║
+    ║    💡 Ready to Strike Digital Gold & Train Neural Networks!                            ║
+    ║                                                                                        ║
+    ╚════════════════════════════════════════════════════════════════════════════════════════╝
+    
+    🚀 Starting Gold-Digger in 30 seconds...
+    
+    ⭐ Get ready for the most epic crypto data mining adventure ever!
+    💎 Preparing to excavate mountains of ML training data...
+    🤖 Neural networks are warming up for some serious learning...
+    """
+    
+    print(banner)
+    
+    # Cool countdown with mining-themed messages
+    mining_prep_messages = [
+        "🔧 Calibrating mining equipment...",
+        "⚡ Powering up quantum processors...", 
+        "🎯 Targeting the richest crypto veins...",
+        "💎 Sharpening digital pickaxes...",
+        "🧠 Awakening ML algorithms...",
+        "🔍 Scanning for volume anomalies...",
+        "⛏️  Loading technical analysis weapons...",
+        "🚀 Initializing warp drive...",
+        "💰 Preparing treasure vault...",
+        "🎰 Spinning up jackpot detectors..."
+    ]
+    
+    print("    " + "="*70)
+    print("    🕐 INITIALIZATION COUNTDOWN:")
+    print("    " + "="*70)
+    
+    for i in range(30, 0, -3):
+        message = random.choice(mining_prep_messages)
+        print(f"    ⏰ {i:2d}s - {message}")
+        time.sleep(3)
+    
+    print("\n" + "    " + "🎉 GOLD-DIGGER IS NOW ONLINE! LET'S STRIKE IT RICH! 🎉")
+    print("    " + "="*70 + "\n")
+
 # Configure logging for Gold-Digger
 logging.basicConfig(
     level=logging.INFO,
@@ -108,14 +169,7 @@ class GoldDigger:
             self.log_funny("🔧 Setting up mining equipment across multiple exchanges...")
             
             # Original exchanges
-            self.exchanges['binance'] = ccxt.binance({
-                'apiKey': '',  # Add your API keys
-                'secret': '',
-                'sandbox': False,
-                'rateLimit': 1000,
-            })
-            
-            self.exchanges['coinbase'] = ccxt.coinbasepro({
+            self.exchanges['coinbase'] = ccxt.coinbase({
                 'apiKey': '',
                 'secret': '',
                 'password': '',
@@ -312,15 +366,15 @@ class GoldDigger:
             return []
     
     def dig_historical_gold(self, symbol: str, timeframe: str = '1h', 
-                           days: int = 30, exchange_name: str = 'binance') -> pd.DataFrame:
+                           days: int = 30, exchange_name: str = 'kraken') -> pd.DataFrame:
         """Dig deep for historical treasure! ⛏️"""
         try:
             self.log_funny(f"⛏️ Excavating {days} days of {symbol} history from {exchange_name}...")
             
             exchange = self.exchanges.get(exchange_name)
             if not exchange:
-                self.log_funny(f"🚫 Mining rig {exchange_name} not found! Switching to backup...", "warning")
-                exchange = self.exchanges['binance']
+                self.log_funny(f"🚫 Mining rig {exchange_name} not found! Skipping...", "warning")
+                return pd.DataFrame()
                 
             since = exchange.milliseconds() - (days * 24 * 60 * 60 * 1000)
             ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since)
@@ -362,7 +416,7 @@ class GoldDigger:
             df['bb_position'] = (df['close'] - df['bb_lower']) / (df['bb_upper'] - df['bb_lower'])
             
             # Volume weapons
-            df['volume_sma'] = ta.volume.VolumeSMAIndicator(close=df['close'], volume=df['volume']).volume_sma()
+            df['volume_sma'] = df['volume'].rolling(window=20).mean()
             df['volume_ratio'] = df['volume'] / df['volume_sma']
             
             # Support and Resistance - The fortress walls
@@ -454,15 +508,6 @@ class GoldDigger:
             
         except Exception as e:
             self.log_funny(f"🗺️ Treasure map reading failed for {symbol}: {e}", "error")
-            return {}values(), weights))
-            
-            utility_metrics['overall_utility_score'] = overall_score
-            utility_metrics['potential_score'] = overall_score * np.random.uniform(0.8, 1.2)
-            
-            return utility_metrics
-            
-        except Exception as e:
-            logging.error(f"Error fetching utility metrics for {symbol}: {e}")
             return {}
     
     def detect_volume_jackpots(self, df: pd.DataFrame, symbol: str) -> List[Dict]:
@@ -607,14 +652,18 @@ class GoldDigger:
                 target_price_change_1h = future_1h['price_change_1h'] if future_1h is not None else 0
                 target_price_change_24h = future_24h['price_change_24h'] if 'price_change_24h' in future_24h else 0
                 
+                def convert_np(obj):
+                    if isinstance(obj, np.generic):
+                        return obj.item()
+                    return obj
                 ml_record = {
                     'symbol': row['symbol'],
                     'timestamp': row['timestamp'],
-                    'feature_vector': json.dumps(features),
+                    'feature_vector': json.dumps(features, default=convert_np),
                     'target_breakout_1h': float(target_breakout_1h),
                     'target_breakout_24h': float(target_breakout_24h),
-                    'target_price_change_1h': target_price_change_1h,
-                    'target_price_change_24h': target_price_change_24h,
+                    'target_price_change_1h': float(target_price_change_1h),
+                    'target_price_change_24h': float(target_price_change_24h),
                     'label_quality_score': 85.0  # Placeholder for data quality assessment
                 }
                 
@@ -695,7 +744,7 @@ class GoldDigger:
             self.log_funny(f"⚡ {self.get_random_mining_message()} Targeting {symbol}...")
             
             # Try multiple exchanges for better data coverage
-            exchanges_to_try = ['binance', 'kraken', 'cryptocom', 'okx', 'bitfinex']
+            exchanges_to_try = ['kraken', 'cryptocom', 'okx', 'bitfinex']
             df = pd.DataFrame()
             
             for exchange in exchanges_to_try:
@@ -870,6 +919,10 @@ class GoldDigger:
 
 def main():
     """Main Gold-Digger execution! 🚀"""
+    # Display the epic banner and countdown
+    display_banner()
+    
+    # Now initialize the digger and start mining
     digger = GoldDigger()
     
     # Launch the initial mining expedition
