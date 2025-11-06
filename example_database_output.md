@@ -199,5 +199,4 @@ Dive into the world of cryptocurrency volume breakouts with stunning visuals, re
 
 ---
 
-*Disclaimer:* Data provided for educational and research purposes. Always DYOR before trading. Powered by Gold-Digger's advanced ML algorithms 🧠</content>
-<parameter name="filePath">C:\Users\uncor\crypto_gold_database.md
+*Disclaimer:* Data provided for educational and research purposes. Always DYOR before trading. Powered by Gold-Digger's advanced ML algorithms 🧠
